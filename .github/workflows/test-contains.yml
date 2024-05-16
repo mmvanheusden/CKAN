@@ -1,0 +1,88 @@
+name: Test whether contains works as documented
+
+on: push
+
+jobs:
+  test-succeeds-1:
+    runs-on: ubuntu-latest
+    steps:
+      - name: succeed
+        run: /bin/true
+
+  test-succeeds-2:
+    runs-on: ubuntu-latest
+    steps:
+      - name: succeed
+        run: /bin/true
+
+  test-fails-1:
+    runs-on: ubuntu-latest
+    steps:
+      - name: fail
+        run: /bin/false
+
+  test-fails-2:
+    runs-on: ubuntu-latest
+    steps:
+      - name: fail
+        run: /bin/false
+
+  test-mixed-contains-success:
+    runs-on: ubuntu-latest
+    needs:
+      - test-succeeds-1
+      - test-fails-1
+    steps:
+      - name: Echo
+        if: contains(needs.*.result, 'success')
+        run: echo SUCCESS
+
+  test-mixed-contains-failure:
+    runs-on: ubuntu-latest
+    needs:
+      - test-succeeds-1
+      - test-fails-1
+    steps:
+      - name: Echo
+        if: contains(needs.*.result, 'failure')
+        run: echo SUCCESS
+
+  test-successes-contains-success:
+    runs-on: ubuntu-latest
+    needs:
+      - test-succeeds-1
+      - test-succeeds-2
+    steps:
+      - name: Echo
+        if: contains(needs.*.result, 'success')
+        run: echo SUCCESS
+
+  test-successes-contains-failure:
+    runs-on: ubuntu-latest
+    needs:
+      - test-succeeds-1
+      - test-succeeds-2
+    steps:
+      - name: Echo
+        if: contains(needs.*.result, 'failure')
+        run: echo SUCCESS
+
+  test-failures-contains-success:
+    runs-on: ubuntu-latest
+    needs:
+      - test-fails-1
+      - test-fails-2
+    steps:
+      - name: Echo
+        if: contains(needs.*.result, 'success')
+        run: echo SUCCESS
+
+  test-failures-contains-failure:
+    runs-on: ubuntu-latest
+    needs:
+      - test-fails-1
+      - test-fails-2
+    steps:
+      - name: Echo
+        if: contains(needs.*.result, 'failure')
+        run: echo SUCCESS
