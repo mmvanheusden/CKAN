@@ -32,6 +32,7 @@ jobs:
     needs:
       - test-succeeds-1
       - test-fails-1
+    if: always()
     steps:
       - name: Echo
         if: contains(needs.*.result, 'success')
@@ -42,6 +43,7 @@ jobs:
     needs:
       - test-succeeds-1
       - test-fails-1
+    if: always()
     steps:
       - name: Echo
         if: contains(needs.*.result, 'failure')
@@ -52,6 +54,7 @@ jobs:
     needs:
       - test-succeeds-1
       - test-succeeds-2
+    if: always()
     steps:
       - name: Echo
         if: contains(needs.*.result, 'success')
@@ -62,6 +65,7 @@ jobs:
     needs:
       - test-succeeds-1
       - test-succeeds-2
+    if: always()
     steps:
       - name: Echo
         if: contains(needs.*.result, 'failure')
@@ -72,6 +76,7 @@ jobs:
     needs:
       - test-fails-1
       - test-fails-2
+    if: always()
     steps:
       - name: Echo
         if: contains(needs.*.result, 'success')
@@ -82,6 +87,7 @@ jobs:
     needs:
       - test-fails-1
       - test-fails-2
+    if: always()
     steps:
       - name: Echo
         if: contains(needs.*.result, 'failure')
